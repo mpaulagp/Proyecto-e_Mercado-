@@ -1,35 +1,38 @@
-const AUTOS_API = 'https://japceibal.github.io/emercado-api/cats_products/101.json'
-let autosArray = [];
+const PRODUCTS_API = `https://japceibal.github.io/emercado-api/cats_products/${localStorage.getItem("catID")}.json`
+    // Hace que las funciones sean generales para todos los productos, no solo para los autos como en la entrega anterior
 
-const ORDER_ASC_BY_NAME = "AZ";
-const ORDER_DESC_BY_NAME = "ZA";
-const ORDER_BY_PROD_COUNT = "Cant.";
-let currentSortCriteria = undefined;
-let minCount = undefined;
-let maxCount = undefined;
+const ORDER_ASC_BY_PRICE = "PriceAsc";
+const ORDER_DESC_BY_PRICE = "PriceDesc";
+const ORDER_BY_RELEVANCE = "Relevance";
+let currentProductsArray = [];
+let currentSortCrit = undefined;
+let minPrice = undefined;
+let maxPrice = undefined;
 
-function sortCategories(criteria, array){
+function sortProducts(crit, arra){
     let result = [];
-    if (criteria === ORDER_ASC_BY_NAME)
-    {
-        result = array.sort(function(a, b) {
-            if ( a.name < b.name ){ return -1; }
-            if ( a.name > b.name ){ return 1; }
-            return 0;
-        });
-    }else if (criteria === ORDER_DESC_BY_NAME){
-        result = array.sort(function(a, b) {
-            if ( a.name > b.name ){ return -1; }
-            if ( a.name < b.name ){ return 1; }
-            return 0;
-        });
-    }else if (criteria === ORDER_BY_PROD_COUNT){
-        result = array.sort(function(a, b) {
-            let aCount = parseInt(a.productCount);
-            let bCount = parseInt(b.productCount);
 
-            if ( aCount > bCount ){ return -1; }
-            if ( aCount < bCount ){ return 1; }
+    if (crit === ORDER_ASC_BY_PRICE){
+        result = arra.sort(function(a, b) {
+            if ( a.cost < b.cost ){ return -1; }
+            if ( a.cost > b.cost ){ return 1; }
+            return 0;
+        });
+
+    }else if (crit === ORDER_DESC_BY_PRICE){
+        result = arra.sort(function(a, b) {
+            if ( a.cost > b.cost ){ return -1; }
+            if ( a.cost < b.cost ){ return 1; }
+            return 0;
+        });
+
+    }else if (crit === ORDER_BY_RELEVANCE){
+        result = arra.sort(function(a, b) {
+            let aRel = parseInt(a.soldCount);
+            let bRel = parseInt(b.soldCount);
+
+            if ( aRel > bRel ){ return -1; }
+            if ( aRel < bRel ){ return 1; }
             return 0;
         });
     }
@@ -37,106 +40,141 @@ function sortCategories(criteria, array){
     return result;
 }
 
-function listaDeAutos() {
-fetch (AUTOS_API)
+function showProductsList() {
+
+fetch (PRODUCTS_API)
 .then(function(response) {
     return response.json()
 })
 .then (function(datos) {
-    autosArray = datos.products;
+    currentProductsArray = datos.products;
 
-    let htmlContentToAppend = '';
-    for (let modelo of autosArray) {
+    // let htmlContentToAppend = '';
+    // for (let modelo of currentProductsArray) {
+    //     htmlContentToAppend += `
+    //     <div class="list-group-item list-group-item-action">
+    //         <div class="row">
+    //             <div class="col-3">
+    //                 <img src="` + modelo.image + `" alt="product image" class="img-thumbnail">
+    //             </div>
+    //             <div class="col">
+    //                 <div class="d-flex w-100 justify-content-between">
+    //                     <div class="mb-1">
+    //                     <h4>`+ modelo.name + ` - `+ modelo.currency +` `+ modelo.cost +`</h4> 
+    //                     <p> `+ modelo.description +`</p> 
+    //                     </div>
+    //                     <small class="text-muted">` + modelo.soldCount + ` vendidos </small> 
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>`
+    // }
+//     document.getElementById("productslist").innerHTML = htmlContentToAppend;
+// })
+// }
+
+    let htmlContentToAppend = "";
+    for(let i = 0; i < currentProductsArray.length; i++){
+        let product = currentProductsArray[i];
+
+        if (((minPrice == undefined) || (minPrice != undefined && parseInt(product.cost) >= minPrice)) &&
+            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice))){
+
         htmlContentToAppend += `
         <div class="list-group-item list-group-item-action">
             <div class="row">
                 <div class="col-3">
-                    <img src="` + modelo.image + `" alt="product image" class="img-thumbnail">
+                    <img src=` + product.image + ` alt="product image" class="img-thumbnail">
                 </div>
                 <div class="col">
                     <div class="d-flex w-100 justify-content-between">
                         <div class="mb-1">
-                        <h4>`+ modelo.name + ` - `+ modelo.currency +` `+ modelo.cost +`</h4> 
-                        <p> `+ modelo.description +`</p> 
+                        <h4>`+ product.name +` - `+product.currency +` `+ product.cost +` </h4> 
+                        <p> `+ product.description +`</p> 
                         </div>
-                        <small class="text-muted">` + modelo.soldCount + ` vendidos </small> 
+                        <small class="text-muted">` + product.soldCount + ` vendidos </small> 
                     </div>
                 </div>
             </div>
-        </div>`
+        </div>
+        `
+        }
+        document.getElementById("productslist").innerHTML = htmlContentToAppend; 
     }
-    document.getElementById("auto-products").innerHTML = htmlContentToAppend;
-
 })
 }
 
-function sortAndShowCategories(sortCriteria, categoriesArray){
-    currentSortCriteria = sortCriteria;
+console.log(currentProductsArray)
 
-    if(categoriesArray != undefined){
-        autosArray = categoriesArray;
+function sortAndShowProducts(sortCrit, productsArray){
+    currentSortCrit = sortCrit;
+
+    if(productsArray != undefined){
+        currentProductsArray = productsArray;
     }
 
-    autosArray = sortCategories(currentSortCriteria, autosArray);
+    currentProductsArray = sortProducts(currentSortCrit, currentProductsArray);
 
     //Muestro las categorías ordenadas
-    listaDeAutos();
+    showProductsList();
 }
 
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
-document.addEventListener("DOMContentLoaded", function(e){
-    getJSONData(AUTOS_API).then(function(resultObj){
-        if (resultObj.status === "ok"){
-            autosArray = resultObj.data
-            listaDeAutos()
-            //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
-        }
+
+document.addEventListener("DOMContentLoaded", function(evento){
+    
+fetch (PRODUCTS_API)
+.then(function(respuesta) {
+   return respuesta.json()
+})
+.then (function(datos) {
+productsArray = datos.products;
+   showProductsList()
+});
+
+    document.getElementById("priceAsc").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_ASC_BY_PRICE);
     });
 
-    document.getElementById("sortA").addEventListener("click", function(){
-        sortAndShowCategories(ORDER_ASC_BY_NAME);
+    document.getElementById("priceDesc").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_DESC_BY_PRICE);
     });
 
-    document.getElementById("sortD").addEventListener("click", function(){
-        sortAndShowCategories(ORDER_DESC_BY_NAME);
+    document.getElementById("sortByRel").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_BY_RELEVANCE);
     });
 
-    document.getElementById("sortCant").addEventListener("click", function(){
-        sortAndShowCategories(ORDER_BY_PROD_COUNT);
+    document.getElementById("clearRangeFilterPrice").addEventListener("click", function(){
+        document.getElementById("rangeFilterPriceMin").value = "";
+        document.getElementById("rangeFilterPriceMax").value = "";
+
+        minPrice = undefined;
+        maxPrice = undefined;
+
+        showProductsList();
     });
 
-    document.getElementById("clearRangeFilter").addEventListener("click", function(){
-        document.getElementById("rangeFilterCountMin").value = "";
-        document.getElementById("rangeFilterCountMax").value = "";
+    document.getElementById("rangeFilterPrice").addEventListener("click", function(){
 
-        minCount = undefined;
-        maxCount = undefined;
+        minPrice = document.getElementById("rangeFilterPriceMin").value;
+        maxPrice = document.getElementById("rangeFilterPriceMax").value;
 
-        listaDeAutos();
-    });
-
-    document.getElementById("rangeFilterCount").addEventListener("click", function(){
-        //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
-        //de productos por categoría.
-        minCount = document.getElementById("rangeFilterCountMin").value;
-        maxCount = document.getElementById("rangeFilterCountMax").value;
-
-        if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0){
-            minCount = parseInt(minCount);
-        }
-        else{
-            minCount = undefined;
-        }
-
-        if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0){
-            maxCount = parseInt(maxCount);
+        if ((minPrice != undefined) && (minPrice != "") && (parseInt(minPrice)) >= 0){
+            minPrice = parseInt(minPrice);
         }
         else{
-            maxCount = undefined;
+            minPrice = undefined;
         }
 
-        listaDeAutos();
+        if ((maxPrice != undefined) && (maxPrice != "") && (parseInt(maxPrice)) >= 0){
+            maxPrice = parseInt(maxPrice);
+        }
+        else{
+            maxPrice = undefined;
+        }
+
+        showProductsList();
     });
 });
