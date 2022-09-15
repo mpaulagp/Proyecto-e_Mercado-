@@ -23,8 +23,6 @@ const inputEmail = document.getElementById("email")
 const buttonText = document.getElementById("submit")
 
 buttonText.addEventListener("click", (e) => {
-    // Si tenemos texto ingresado en el email, lo guardamos en el localStorage
-    // Solución:
     if (inputEmail.value) { 
         localStorage.setItem("text", inputEmail.value);
     } else {
