@@ -18,21 +18,29 @@
 
 <body>
   <main class="mt-5">
-  <center><img src="img/login.png" alt="login image"></center>
+  <div clas="w-50">
+
+  <img src="img/login.png" class="w-25 mx-auto d-block" alt="login image">
+  </div>
   <div class="container">
-    <form id="login-form">
+    <div class="text-center p-4">
       <h3><strong>Inicio de sesión</strong></h3>
-      <div>
-        <label for="email" class="login-form-label">Email</label>
-        <input type="email" class="form-control" id="email">
-      </div>
-      <div>
-        <label for="password" class="login-form-label">Contraseña</label>
-        <input type="password" class="form-control" id="password">
-      </div>
-      <br></br>
-      <input type="submit" value="Ingresar" id="submit">
-    </form>
+      <form id="login-form">
+        <div class="col-md-4 offset-md-4">
+          <div class="p-2">
+            <label for="email" class="login-form-label">Email</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="p-2">
+            <label for="password" class="login-form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+        </div>
+        <div class="p-2">
+          <input type="submit" class="btn btn-primary my-2" value="Ingresar" id="submit">
+        </div>
+        </form>
+    </div>
   </div>
   </main>
   <footer class="text-muted">

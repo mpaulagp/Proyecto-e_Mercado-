@@ -26,6 +26,6 @@ buttonText.addEventListener("click", (e) => {
     if (inputEmail.value) { 
         localStorage.setItem("text", inputEmail.value);
     } else {
-        alert("Por favor, ingresa un texto");
+        alert("Por favor, ingrese un Nombre de Usuario");
     }
 });
