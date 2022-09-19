@@ -11,27 +11,35 @@ return response.json()
     let htmlContentToAppend = "";
 
     htmlContentToAppend += `
-    <h2>${data.name}</h2>
-    <hr class="mb-4">
+    <h2 class="py-4 my-0">${data.name}</h2>
+    <hr class="mt-0">
     
-    <h4>Precio</h4>
+    <p class="my-0"><strong>Precio</strong></p>
     <p>${data.currency} ${data.cost}</p>   
 
-    <h4>Descripción</h4>
+    <p class="my-0"><strong>Descripción</strong></p>
     <p>${data.description}</p>
 
-    <h4>Categoría</h4>
+    <p class="my-0"><strong>Categoría</strong></p>
     <p>${data.category}</p>
     
-    <h4>Cantidad de Vendidos</h4>
+    <p class="my-0"><strong>Cantidad de Vendidos</strong></p>
     <p>${data.soldCount}</p> 
 
-    <h4>Imágenes Ilustrativas</h4>
-    <div class="col-3">
-        <img src="${data.images[0]}" alt="" class="img-thumbnail">
-        <img src="${data.images[1]}" alt="" class="img-thumbnail">
-        <img src="${data.images[2]}" alt="" class="img-thumbnail">
-        <img src="${data.images[3]}" alt="" class="img-thumbnail">
+    <p class="my-0"><strong>Imágenes Ilustrativas</strong></p>
+    <div class="row">
+        <div class="col">
+            <img src="${data.images[0]}" alt="" class="img-thumbnail">
+        </div>
+        <div class="col">
+            <img src="${data.images[1]}" alt="" class="img-thumbnail">
+        </div>
+        <div class="col">
+            <img src="${data.images[2]}" alt="" class="img-thumbnail">
+        </div>
+        <div class="col">
+            <img src="${data.images[3]}" alt="" class="img-thumbnail">
+        </div>
     </div>
 
     <hr class="mb-4">
@@ -50,7 +58,6 @@ return response.json()
     })
     .then (function(comment) {
         comentariosArray = comment;
-        console.log(comment);
     
         for(let i = 0; i < comentariosArray.length; i++){
             let comentario = comentariosArray[i];
@@ -63,7 +70,7 @@ return response.json()
                 <div class="row">
                     <div class="col">
                         <div class="d-flex w-100 justify-content-between">
-                            <h4 class="mb-1">${comentario.user} ${comentario.dateTime} ${comentario.score} </h4>
+                            <p class="h6"><strong>${comentario.user}</strong> - ${comentario.dateTime} - Puntuación: <mark>${comentario.score}/5</mark></p>
                         </div>
                         <p class="mb-1">${comentario.description}</p>
                     </div>
@@ -77,68 +84,42 @@ return response.json()
     
     }); 
 
+    let nuevoComentario = []; 
     let botonEnviarComentario = document.getElementById("enviarComentario"); 
 
     botonEnviarComentario.addEventListener("click", function(evento) {
+        let opinion = document.getElementById("myOpinion").value;
+        let puntuacion = document.getElementById("puntuacion").value;
+        let newuser = localStorage.getItem("text");
+
+        if (opinion) {
             evento.preventDefault();
+
+            nuevoComentario.push( [{
+                description: opinion,
+                score: puntuacion,
+                user: newuser
+            }]);
+
+            document.getElementById("productComment").innerHTML += `
+            <div class="list-group-item list-group-item-action">
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex w-100 justify-content-between">
+                            <p class="h6"><strong>${newuser}</strong> - Puntuación: <mark>${puntuacion}/5</mark></p>
+                            </div>
+                            <p class="mb-1">${opinion}</p>
+                        </div>
+                    </div>
+                </div>
+        
+                `;
+        }
 
     });
 
 });
 
-function addComment() {
-    
-    function newComment(usuario, puntuacion, opinion) {
-        this.usuario = usuario;
-        this.puntuacion = puntuacion;
-        this.opinion = opinion;
-    }
-
-    console.log(newComment);
-
-    var usuarioAgregar = localStorage.getItem("text");
-    var puntuacionAgregar = document.getElementById("puntuacion").value;
-    var opinionAgregar = document.getElementById("myOpinion").value;
-
-    nuevoComentario = new newComment(usuarioAgregar, puntuacionAgregar, opinionAgregar);
-    agregar();
-}
-
-var nuevosComentariosArray = [];
-
-function agregar() {
-    nuevosComentariosArray.push(nuevoComentario);
-    document.getElementById("productComment").innerHTML += `
-        <div class="list-group-item list-group-item-action">
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h4 class="mb-1">${nuevoComentario.usuarioAgregar} ${nuevoComentario.puntuacionAgregar}</h4>
-                    </div>
-                    <p class="mb-1">${nuevoComentario.opinionAgregar}</p>
-                </div>
-            </div>
-        </div>
-        
-        `;
-
-}
-
-console.log(nuevosComentariosArray);
-
-
-// función en base del score te ponga la cantidad de estrellas correspondientes
-
-// function puntuacion() {
-//     let puntaje = comentario.score[i];
-
-//     for (let i = 0; i < puntaje.length; i++){
-//         if (i <= puntaje ){
-//             <span class="fa fa-star checked"></span>
-//         }else{
-//             <span class="fa fa-star"></span>
-//         }
-//     };
-// }
-
-// console.log(puntaje);
+// Función en base del score te ponga la cantidad de estrellas correspondientes
+// Se deben añadir tantas estrellitas como sea la cantidad de score, con máximo 5.
+// En caso de que score sea menor a 5, la estrellitas sobrantes deberán ser de color negro.

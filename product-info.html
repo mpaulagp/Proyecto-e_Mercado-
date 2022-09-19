@@ -31,7 +31,6 @@
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
           <li class="nav-item">
-            <!-- AGREGAR AL NAVBAR EL NOMBRE DE USUARIO A TODOS! -->
           </li>
         </ul>
       </div>
@@ -42,20 +41,29 @@
     </div>
     <div class="container" id="productComment">
     </div>
-    <hr class="mb-4">
     <div class="container">
+      <hr class="mb-4">
+      <h4>Comentar</h4>
       <form id="comment">
+        <div>
         <label for="myOpinion">Tu Opinión:</label>
-        <textarea id="myOpinion" value="" name="myOpinion"></textarea>
+        </div>
+        <div>
+        <textarea class="form-control" id="myOpinion" value="" name="myOpinion" rows="3"></textarea>
+        </div>
+        <div>
         <label for="puntuacion">Puntuación:</label>
-        <select name="puntuacion" class="form-select custom-select d-block w-100" id="puntuacion" required>
+        <select name="puntuacion" class="form-select custom-select d-block w-25" id="puntuacion" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-      <button type="submit" id="enviarComentario" onclick="addComment();">Enviar</input>
+        </div>
+      <div> 
+      <button class="btn btn-primary my-2" type="submit" id="enviarComentario">Enviar</button>
+      </div>
       </form>
     </div>
   </main>
