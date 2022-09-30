@@ -12,7 +12,3 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 });
-
-const navUsername = document.getElementById("username")
-const username = localStorage.getItem("text")
-navUsername.innerHTML = `<a class="nav-link" href="my-profile.html">${username}</a>`

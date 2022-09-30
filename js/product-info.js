@@ -27,6 +27,42 @@ return response.json()
     <p>${data.soldCount}</p> 
 
     <p class="my-0"><strong>Imágenes Ilustrativas</strong></p>
+    
+    <div id="carouselExampleControls" class="carousel carousel-dark slide w-100" data-bs-ride="carousel">
+    <div class="carousel-inner"> 
+        <div class="carousel-item active">
+            <div class="d-flex justify-content-center">
+                <img src="${data.images[0]}" class="w-50" alt="...">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <img src="${data.images[1]}" class="w-50" alt="...">
+            </div>        
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <img src="${data.images[2]}" class="w-50" alt="...">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center">
+                <img src="${data.images[3]}" class="w-50" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    </div>
+
+    <br></br>
+
     <div class="row">
         <div class="col">
             <img src="${data.images[0]}" alt="" class="img-thumbnail">
@@ -118,7 +154,35 @@ return response.json()
 
     });
 
+    //se creó un for que recorra el array que contiene los productos relacionados y que muestre lo requerido 
+
+    let prodRelacionadoAMostrar = "";
+
+    for (let prodRel of data.relatedProducts) {
+
+        prodRelacionadoAMostrar += `
+        <div class="col-md-4">
+            <div onclick="setProdID(${prodRel.id})" class="card mb-4 shadow-sm custom-card cursor-active">
+            <img class="bd-placeholder-img card-img-top" src="${prodRel.image}"
+                alt="Imgagen representativa del producto relacionado '${prodRel.name}'.">
+            <div class="card-body">
+                <p class="card-text">${prodRel.name}</p>
+            </div>
+            </div>
+        </div>
+        `
+    }
+
+    document.getElementById("productosRelacionados").innerHTML += prodRelacionadoAMostrar;
+
 });
+
+function setProdID(id) {
+    localStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+}
+// se sobre escribe el seteado del prodId para que te redireccione a la pagina de dicho producto
+//Luego se llama a la función en el onclick del div que contiene el id
 
 // Función en base del score te ponga la cantidad de estrellas correspondientes
 // Se deben añadir tantas estrellitas como sea la cantidad de score, con máximo 5.
