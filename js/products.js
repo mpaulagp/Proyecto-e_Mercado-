@@ -5,6 +5,8 @@ let currentProductsArray = [];
 let minPrice = undefined;
 let maxPrice = undefined;
 
+let searchProd = undefined;
+
 function showProductsList() {
     
     let htmlContentToAppend = "";
@@ -12,7 +14,8 @@ function showProductsList() {
         let product = currentProductsArray[i];
 
         if (((minPrice == undefined) || (minPrice != undefined && parseInt(product.cost) >= minPrice)) &&
-            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice))){
+            ((maxPrice == undefined) || (maxPrice != undefined && parseInt(product.cost) <= maxPrice)) && (( searchProd == undefined || searchProd != undefined
+            ))){
 
         htmlContentToAppend += `
         <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active">
@@ -114,5 +117,32 @@ currentProductsArray = data.products;
 
         showProductsList();
     });
+
+//funcionalidad en desarrollo...
+    document.getElementById("btnBuscar").addEventListener("click", function() {
+
+        let input = document.getElementById('form1').value;
+        input = input.toLowerCase();
+    
+        console.log(currentProductsArray);
+          
+        for (let prodBusc of currentProductsArray) {
+    
+            if (prodBusc.name.toLowerCase().includes(input)
+                || prodBusc.description.toLowerCase().includes(input)) {
+                    
+                searchProd = input            
+                
+                } else {
+    
+                searchProd = undefined
+                   
+            }
+            
+            
+        }
+
+        showProductsList();
+    })
 
 });
