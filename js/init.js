@@ -57,6 +57,3 @@ navUsername.innerHTML = `
 function cerrarSesion() {
   localStorage.removeItem("text");
 }
-
-//se agregó al elemento del navbar que contenía el usuarui un menú desplegable, a través de un inner HTML, que contenga lo requerido y redireccione a las diferentes pantallas.
-// Para el cerrado de sesión se realizó una función que elimine del localstorage el nombre de usuario autenticado.
