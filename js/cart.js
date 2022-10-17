@@ -9,16 +9,9 @@ return response.json()
 .then (function(data) {
 
     articlesInCart = data;
-    console.log(articlesInCart)
-
-    function subtotal() {
-        let subtotValue = document.getElementById("cantArticle").value
-        let subtotHTML = subtotValue * articlesInCart.articles.unitCost
-
-        document.getElementById("subt").innerHTML = subtotHTML;
-    }
 
     for(let i = 0; i < articlesInCart.articles.length; i++){
+
         let article = articlesInCart.articles[i];
 
         let htmlContentToAppend = "";
@@ -28,19 +21,23 @@ return response.json()
                 <td><img src="${article.image}" style="width: 50px"></td>
                 <td>${article.name}</td>
                 <td>${article.currency} ${article.unitCost}</td>
-                <td><input type="numer" class="form-control w-25" id="cantArticle" required value="1" min="0"></td>
-                <td><strong id="subt">${article.currency}</strong></td>
-
+                <td><input type="number" class="form-control w-25" id="cantArticle" value="${article.count}"></td>
+                <td><p id="subt" class="fw-bold">${article.currency} ${article.count * article.unitCost}</p></td>
             </tr>
         `
 
         document.getElementById("cartTable").innerHTML = htmlContentToAppend;
+
+        function subtotal(cantidad) {
+            
+            document.getElementById("subt").innerHTML = `${article.currency} ${cantidad * article.unitCost}`   
+        }
+
+        document.getElementById("cantArticle").addEventListener("change", function(){
+            cantidad = this.value;
+            subtotal(cantidad);
+        });
+
     }
-
-    document.getElementById("cantArticle").addEventListener("change", function(){
-        subtotValue = this.value;
-        subtotal();
-    });
-
     
 })   
