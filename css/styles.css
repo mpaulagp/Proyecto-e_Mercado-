@@ -188,3 +188,25 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.formuser.ok input {
+  border: 0.1px solid;
+  border-color: green;
+}
+.formuser.falla input {
+  border: 0.1px solid;
+  border-color: red;
+}
+
+.formuser #error {
+  visibility: hidden;
+  position: relative;
+  font-size: small;
+  font-weight: 500;
+  text-align: right;
+}
+
+.formuser.falla #error {
+  visibility: visible;
+  color:red;
+}

@@ -38,6 +38,7 @@
   <main>
 
     <div class="container">
+      <form action="#" id="cartForm">
       <div class="text-center p-4">
         <h2>Carrito de compras</h2>
       </div>
@@ -59,18 +60,25 @@
         </table>
       </div>
       <hr></hr>
+
+      <div class="container">
+
       <h4 class="mb-3">Tipo de envío</h4>
+      
         <div class="form-check">
           <input class="form-check-input" type="radio" id="envioPremium" name="tipoDeEnvio">
           <label class="form-check-label" for="envioPremium">Premium 2 a 5 días (15%)</label>
+          <small id="error"></small>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="radio" id="envioExpress" name="tipoDeEnvio">
           <label class="form-check-label" for="envioExpress">Express 5 a 8 días (7%)</label>
+          <small id="error"></small>
         </div>
         <div class="form-check mb-3">
           <input class="form-check-input" type="radio" id="envioStandard" name="tipoDeEnvio">
           <label class="form-check-label" for="envioStandard">Standard 12 a 15 días (5%)</label>
+          <small id="error"></small>
         </div>
       
       <h4 class="mb-3">Dirección de envío</h4>
@@ -78,20 +86,59 @@
           <div class="mb-3 col-8">
             <label class="form-control-label" for="calleEnvio">Calle</label>
             <input class="form-control" id="calleEnvio">
+            <small id="error"></small>
           </div>
           <div class="mb-3 col-4">
             <label class="form-control-label" for="numeroEnvio">Número</label>
             <input class="form-control" id="numeroEnvio">
+            <small id="error"></small>
           </div>
         </div>
         <div class="row">
           <div class="mb-3 col-8">
             <label class="form-control-label" for="esquinaEnvio">Esquina</label>
             <input class="form-control" id="esquinaEnvio">
+            <small id="error"></small>
           </div>
         </div>
-        <hr></hr>
       </div>
+
+      <hr class="mb-4">
+          <h4 class="mb-3">Costos</h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Subtotal</h6>
+                <small class="text-muted">Costo unitario del producto por cantidad</small>
+              </div>
+              <span class="text-muted" id="subtotalCart">-</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Costo de envío</h6>
+                <small class="text-muted">Según el tipo de envío</small>
+              </div>
+              <span class="text-muted" id="envioText">-</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total ($)</span>
+              <strong id="totalCostText">-</strong>
+            </li>
+          </ul>
+
+          <hr class="mb-4">
+          <h4 class="mb-3">Formas de pago</h4>
+          <div class="col-sm-12 formuser">
+            <label class="form-control-label" for="formaPago" id="formaPagoSel">No se ha seleccionado</label>
+            <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#modalFormasDePago" id="formaPago">Seleccionar</button>
+            <small id="error"></small>
+          </div>
+          
+          <br>
+          <button class="btn btn-primary col-12" type="submit">Finalizar compra</button>
+         
+    </form>
+    </div>
 
   </main>
   <footer class="text-muted">
@@ -112,6 +159,72 @@
       <div></div>
     </div>
   </div>
+
+  <div class="modal fade" id="modalFormasDePago" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Forma de pago</h1>
+        </div>
+        <div class="modal-body m-2">
+          <div class="row g-3 p-2">
+
+            <div class="col-sm-6 form-check">
+              <input class="form-check-input" type="radio" id="tarjCredito" name="formaDePago">
+              <label class="form-check-label" for="tarjCredito">Tarjeta de crédito</label>
+              <small id="error"></small>
+            </div>
+
+            <hr>
+
+            <div class="col-sm-6 formuser">
+              <label for="numTarjeta" name="numTarjeta" class="form-label">Número de tarjeta</label>
+              <input type="text" class="form-control" id="numTarjeta">
+              <small id="error"></small>
+            
+            </div>
+
+            <div class="col-sm-4 formuser">
+              <label for="codSeg" name="codSeg" class="form-label">Código de seg.</label>
+              <input type="text" class="form-control" id="codSeg">
+              <small id="error"></small>
+            
+            </div>
+
+            <div class="col-sm-6 formuser">
+              <label for="vencTarj" name="vencTarj" class="form-label">Vencimiento (MM/AA)</label>
+              <input type="text" class="form-control" id="vencTarj">
+              <small id="error"></small>
+            
+            </div>
+
+          </div>
+
+          <div class="row g-3 p-2">
+
+            <div class="col-sm-6 form-check">
+              <input class="form-check-input" type="radio" id="transfer" name="formaDePago">
+              <label class="form-check-label" for="transfer">Transferencia bancaria</label>
+              <small id="error"></small>
+            </div>
+
+            <hr>
+
+            <div class="col-sm-6 formuser">
+              <label for="numCuenta" name="numCuenta" class="form-label">Número de cuenta</label>
+              <input type="text" class="form-control" id="numCuenta">
+              <small id="error"></small>
+            
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
