@@ -40,7 +40,7 @@ fetch(CART_INFO_API)
                 <td><img src="${article.image}" style="width: 50px"></td>
                 <td>${article.name}</td>
                 <td>${article.currency} ${article.unitCost}</td>
-                <td><input type="number" class="form-control w-25" id="cantArticle" value="${article.count}"></td>
+                <td align="center"><input type="number" class="form-control w-25" id="cantArticle" value="${article.count}"></td>
                 <td><p id="subt" class="fw-bold">${article.currency} ${article.count * article.unitCost}</p></td>
             </tr>
         `
@@ -125,7 +125,6 @@ document.getElementById("transfer").onclick = function () {
 
 window.addEventListener("load", () => {
     const formCart = document.getElementById("cartForm")
-    const cantArt = document.getElementById("cantArticle")
     const envioP = document.getElementById("envioPremium")
     const envioE = document.getElementById("envioExpress")
     const envioS = document.getElementById("envioStandard")
@@ -150,13 +149,13 @@ window.addEventListener("load", () => {
 
     // Campo válido o no válido
     const validaCampos = () => {
+        var todoOk = true
 
         const validafalla = (input, msj) => {
             const formCart = input.parentElement
             const alerts = formCart.querySelector('#error')
             alerts.innerHTML = msj
             formCart.className = 'formuser falla'
-
         }
 
         const validok = (input, msj) => {
@@ -167,28 +166,32 @@ window.addEventListener("load", () => {
         // Validación campos calle, número y esquina
         if (calle.value.length < 1) {
             validafalla(calle, 'Ingresa una calle')
+            todoOk = false
         } else {
             validok(calle)
         }
 
         if (numero.value.length < 1) {
             validafalla(numero, 'Ingresa un número')
+            todoOk = false
         } else {
             validok(numero)
         }
 
         if (esquina.value.length < 1) {
             validafalla(esquina, 'Ingresa una esquina')
+            todoOk = false
         } else {
             validok(esquina)
         }
 
-        // ¿Cómo hacer para validar este campo?
-        // if (cantArt.value < 1) {
-        //     validafalla(cantArt, '')
-        // } else {
-        //     validok(cantArt)
-        // }
+        const cantArt = document.getElementById("cantArticle")
+        if (cantArt.value < 1) {
+            validafalla(cantArt, '')
+            todoOk = false
+        } else {
+            validok(cantArt)
+        }
 
         // Validación elegir forma de pago
 
@@ -200,6 +203,7 @@ window.addEventListener("load", () => {
             validafalla(envioP, 'Ingresa una forma de envío')
             validafalla(envioE, '')
             validafalla(envioS, '')
+            todoOk = false
         }
 
         if (tarjCred.checked || trans.checked) {
@@ -209,6 +213,7 @@ window.addEventListener("load", () => {
             validafalla(document.getElementById("formaPago"), 'Ingresa una forma de envío')
             validafalla(tarjCred, '')
             validafalla(trans, '')
+            todoOk = false
         }
 
         //  Validación campos forma de pago
@@ -216,18 +221,21 @@ window.addEventListener("load", () => {
 
             if (venTarj.value.length < 1) {
                 validafalla(venTarj, 'Ingresa un número')
+                todoOk = false
             } else {
                 validok(venTarj)
             }
-    
+
             if (numTarj.value.length < 1) {
                 validafalla(numTarj, 'Ingresa un número')
+                todoOk = false
             } else {
                 validok(numTarj)
             }
-    
+
             if (codeS.value.length < 1) {
                 validafalla(codeS, 'Ingresa un número')
+                todoOk = false
             } else {
                 validok(codeS)
             }
@@ -235,9 +243,18 @@ window.addEventListener("load", () => {
         } else if (trans.checked) {
             if (cuenta.value.length < 1) {
                 validafalla(cuenta, 'Ingresa un número')
+                todoOk = false
             } else {
                 validok(cuenta)
             }
+        }
+
+        if (todoOk === true) {
+                document.body.innerHTML += `
+                    <div class="alert alert-success">
+                        ¡Has comprado con éxito!
+                    </div>
+                    `
         }
 
     }
