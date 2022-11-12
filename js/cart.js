@@ -163,7 +163,7 @@ window.addEventListener("load", () => {
             formCart.className = 'formuser ok'
         }
 
-        // Validación campos calle, número y esquina
+        // Validación campos calle, número, esquina y cantidad de artículos
         if (calle.value.length < 1) {
             validafalla(calle, 'Ingresa una calle')
             todoOk = false
@@ -187,7 +187,7 @@ window.addEventListener("load", () => {
 
         const cantArt = document.getElementById("cantArticle")
         if (cantArt.value < 1) {
-            validafalla(cantArt, '')
+            validafalla(cantArt, 'Comprar al menos 1')
             todoOk = false
         } else {
             validok(cantArt)
@@ -250,11 +250,11 @@ window.addEventListener("load", () => {
         }
 
         if (todoOk === true) {
-                document.body.innerHTML += `
-                    <div class="alert alert-success">
-                        ¡Has comprado con éxito!
-                    </div>
-                    `
+            document.body.innerHTML += `
+                <div class="alert alert-success">
+                    ¡Has comprado con éxito!
+                </div>
+                `
         }
 
     }

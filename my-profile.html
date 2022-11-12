@@ -50,11 +50,61 @@
       </div>
     </div>
   </nav>
-  <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+  <main class="mx-5">
+    <div class="col-md-8 offset-md-2">
+    <div class="container row justify-content-between p-4">
+      <div class="col-4">
+        <h2>Perfil</h2>
       </div>
+      <div class="col-2">
+        <img alt="profile image" class="img-thumbnail" id="profileImg">
+      </div>
+    </div>
+    <div class="container-lg d-flex align-content-center">
+      <div class="container">
+        <hr class="mb-4">
+        <form id="perfil" class="needs-validation" novalidate>
+          <div class="row mb-3">
+            <div class="col">
+              <label class="form-control-label">Primer nombre *</label>
+              <input type="text" class="form-control" id="primerNombre" required>
+            </div>
+            <div class="col">
+              <label class="form-control-label">Segundo nombre</label>
+              <input type="text" class="form-control" id="segundoNombre">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label class="form-control-label">Primer apellido *</label>
+              <input type="text" class="form-control" id="primerApellido" required>
+            </div>
+            <div class="col">
+              <label class="form-control-label">Segundo apellido</label>
+              <input type="text" class="form-control" id="segundoApellido">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col" id="divEmail">
+            </div>
+            <div class="col-6">
+              <label for="photoPerfil">Imágen de perfil</label>
+              <input type="file" class="form-control-file" id="photoPerfil">
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-6">
+              <label class="form-control-label">Telefono de contacto</label>
+              <input type="text" class="form-control" id="telContacto">
+            </div>
+          </div>
+          <hr class="mt-4">
+          <div class="col">
+            <button class="btn btn-primary col-3" type="submit">Guardar cambios</button>
+          </div>
+      </div>
+      </form>
+    </div>
     </div>
   </main>
   <footer class="text-muted">
