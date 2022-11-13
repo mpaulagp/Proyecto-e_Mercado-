@@ -19,7 +19,7 @@ email.innerHTML = `
     <input type="email" class="form-control" id="emailPerfil" value="${localStorage.getItem("text")}" required>
     `
     
-// si están cargados que los guarde 
+// Si los campos están guardados en el LocalStorage que los muestre
 if (localStorage.getItem("PrimNom")) {
     primNombre.value = localStorage.getItem("PrimNom");
 }
@@ -50,7 +50,7 @@ if (imageURL) {
     tumbnailPhoto.setAttribute("src", "img/img_perfil.png")
 }
 
-// validación con boostrap
+// Validación con Boostrap
 formPerfil.addEventListener('submit', function (event) {
     if (!formPerfil.checkValidity()) {
     event.preventDefault();
@@ -89,7 +89,7 @@ formPerfil.addEventListener('submit', function (event) {
         localStorage.removeItem("Tel");
     }
 
-    //  no funciona
+    // NO FUNCIONA
     // fotoPerfil.addEventListener("change", function (e) {
     //     const reader = new FileReader(); 
 
