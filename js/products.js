@@ -1,6 +1,3 @@
-const PRODUCTS_API = `https://japceibal.github.io/emercado-api/cats_products/${localStorage.getItem("catID")}.json`
-    // Hace que las funciones sean generales para todos los productos, no solo para los autos como en la entrega anterior
-
 let currentProductsArray = [];
 let minPrice = undefined;
 let maxPrice = undefined;
@@ -47,7 +44,7 @@ function setProdID(id) {
 
 document.addEventListener("DOMContentLoaded", function(){
     
-fetch (PRODUCTS_API)
+fetch (PRODUCTS_URL)
 .then(function(response) {
    return response.json()
 })
@@ -117,32 +114,5 @@ currentProductsArray = data.products;
 
         showProductsList();
     });
-
-//funcionalidad en desarrollo...
-    document.getElementById("btnBuscar").addEventListener("click", function() {
-
-        let input = document.getElementById('form1').value;
-        input = input.toLowerCase();
-    
-        console.log(currentProductsArray);
-          
-        for (let prodBusc of currentProductsArray) {
-    
-            if (prodBusc.name.toLowerCase().includes(input)
-                || prodBusc.description.toLowerCase().includes(input)) {
-                    
-                searchProd = input            
-                
-                } else {
-    
-                searchProd = undefined
-                   
-            }
-            
-            
-        }
-
-        showProductsList();
-    })
 
 });

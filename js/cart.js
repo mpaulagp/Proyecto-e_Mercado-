@@ -1,12 +1,9 @@
-const CART_INFO_API = "https://japceibal.github.io/emercado-api/user_cart/25801.json";
-
 articlesInCart = []
 updateSubtotal = 0;
 envioPercentage = 0.15;
 
 let DOLLAR_SYMBOL = "USD ";
 
-//Función para actualizar los costos del carrito
 function updateCartCosts() {
     let subtotalCartHTML = document.getElementById("subtotalCart");
     let envioHTML = document.getElementById("envioText");
@@ -21,7 +18,7 @@ function updateCartCosts() {
     totalCostHTML.innerHTML = totalCost;
 }
 
-fetch(CART_INFO_API)
+fetch(CART_INFO_URL)
     .then(function (response) {
         return response.json()
     })
@@ -80,7 +77,6 @@ fetch(CART_INFO_API)
 
     })
 
-// Activa o desactiva los campos dependiendo de lo elegido en Forma de Pago
 document.getElementById("tarjCredito").onclick = function () {
 
     if (document.getElementById("tarjCredito").checked) {
@@ -121,7 +117,6 @@ document.getElementById("transfer").onclick = function () {
 
 }
 
-// Validaciones
 
 window.addEventListener("load", () => {
     const formCart = document.getElementById("cartForm")
@@ -147,7 +142,6 @@ window.addEventListener("load", () => {
         })
     })
 
-    // Campo válido o no válido
     const validaCampos = () => {
         var todoOk = true
 
@@ -163,7 +157,6 @@ window.addEventListener("load", () => {
             formCart.className = 'formuser ok'
         }
 
-        // Validación campos calle, número, esquina y cantidad de artículos
         if (calle.value.length < 1) {
             validafalla(calle, 'Ingresa una calle')
             todoOk = false
@@ -193,8 +186,6 @@ window.addEventListener("load", () => {
             validok(cantArt)
         }
 
-        // Validación elegir forma de pago
-
         if (envioP.checked || envioE.checked || envioS.checked) {
             validok(envioP)
             validok(envioE)
@@ -216,7 +207,6 @@ window.addEventListener("load", () => {
             todoOk = false
         }
 
-        //  Validación campos forma de pago
         if (tarjCred.checked) {
 
             if (venTarj.value.length < 1) {

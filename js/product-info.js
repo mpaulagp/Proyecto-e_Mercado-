@@ -1,16 +1,12 @@
-const PRODUCT_INFO_API = `https://japceibal.github.io/emercado-api/products/${localStorage.getItem("prodID")}.json`
+fetch(PRODUCT_INFO_URL)
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
 
-const PRODUCT_INFO_COMMENTS_API = `https://japceibal.github.io/emercado-api/products_comments/${localStorage.getItem("prodID")}.json`;
+        let htmlContentToAppend = "";
 
-fetch (PRODUCT_INFO_API)
-.then(function(response) {
-return response.json()
-})
-.then (function(data) {
-
-    let htmlContentToAppend = "";
-
-    htmlContentToAppend += `
+        htmlContentToAppend += `
     <h2 class="py-4 my-0">${data.name}</h2>
     <hr class="mt-0">
     
@@ -83,48 +79,48 @@ return response.json()
     <h4>Comentarios</h4>
 
     `;
-        
-    document.getElementById("productInfo").innerHTML = htmlContentToAppend; 
 
-    let comentariosArray = [];
+        document.getElementById("productInfo").innerHTML = htmlContentToAppend;
 
-    fetch (PRODUCT_INFO_COMMENTS_API)
-    .then(function(respuesta) {
-    return respuesta.json()
-    })
-    .then (function(comment) {
-        comentariosArray = comment;
+        let comentariosArray = [];
+
+        fetch(PRODUCT_INFO_COMMENTS_URL)
+            .then(function (respuesta) {
+                return respuesta.json()
+            })
+            .then(function (comment) {
+                comentariosArray = comment;
 
 
 
-        function showStars(rate){
-    
-            let roundNumber = Math.round(rate);
-            console.log(roundNumber);
-            if (roundNumber === 1)
-            return `
+                function showStars(rate) {
+
+                    let roundNumber = Math.round(rate);
+                    console.log(roundNumber);
+                    if (roundNumber === 1)
+                        return `
             <span style="color:#F1C40F">★</span><span style="color:grey">☆☆☆☆</span>
             `
-            if (roundNumber === 2 )
-            return `
+                    if (roundNumber === 2)
+                        return `
             <span style="color:#F1C40F">★★</span><span style="color:grey">☆☆☆</span>`
-            if (roundNumber === 3)
-            return `
+                    if (roundNumber === 3)
+                        return `
             <span style="color:#F1C40F">★★★</span><span style="color:grey">☆☆</span>`
-            if (roundNumber === 4)
-            return `
+                    if (roundNumber === 4)
+                        return `
             <span style="color:#F1C40F">★★★★</span><span style="color:grey">☆</span>`
-            if (roundNumber === 5)
-            return `
-            <span style="color:#F1C40F">★★★★★</span><span style="color:grey"></span>`       
-            }
-    
-        for(let i = 0; i < comentariosArray.length; i++){
-            let comentario = comentariosArray[i];
-    
-            let comentarioToAppend = "";
-    
-            comentarioToAppend += `
+                    if (roundNumber === 5)
+                        return `
+            <span style="color:#F1C40F">★★★★★</span><span style="color:grey"></span>`
+                }
+
+                for (let i = 0; i < comentariosArray.length; i++) {
+                    let comentario = comentariosArray[i];
+
+                    let comentarioToAppend = "";
+
+                    comentarioToAppend += `
             
             <div class="list-group-item list-group-item-action">
                 <div class="row">
@@ -138,52 +134,52 @@ return response.json()
             </div>
     
             `;
-        
-            document.getElementById("productComment").innerHTML += comentarioToAppend; 
-        }
-    
-    }); 
 
-    let nuevoComentario = []; 
-    let botonEnviarComentario = document.getElementById("enviarComentario"); 
+                    document.getElementById("productComment").innerHTML += comentarioToAppend;
+                }
 
-    botonEnviarComentario.addEventListener("click", function(evento) {
-        let opinion = document.getElementById("myOpinion").value;
-        let puntuacion = document.getElementById("puntuacion").value;
-        let newuser = localStorage.getItem("text");
+            });
 
-        if (opinion) {
-            evento.preventDefault();
+        let nuevoComentario = [];
+        let botonEnviarComentario = document.getElementById("enviarComentario");
 
-            nuevoComentario.push( [{
-                description: opinion,
-                score: puntuacion,
-                user: newuser
-            }]);
+        botonEnviarComentario.addEventListener("click", function (evento) {
+            let opinion = document.getElementById("myOpinion").value;
+            let puntuacion = document.getElementById("puntuacion").value;
+            let newuser = localStorage.getItem("text");
 
-            function showStars(rate){
-    
-                let roundNumber = Math.round(rate);
-                console.log(roundNumber);
-                if (roundNumber === 1)
-                return `
+            if (opinion) {
+                evento.preventDefault();
+
+                nuevoComentario.push([{
+                    description: opinion,
+                    score: puntuacion,
+                    user: newuser
+                }]);
+
+                function showStars(rate) {
+
+                    let roundNumber = Math.round(rate);
+                    console.log(roundNumber);
+                    if (roundNumber === 1)
+                        return `
                 <span style="color:#F1C40F">★</span><span style="color:grey">☆☆☆☆</span>
                 `
-                if (roundNumber === 2 )
-                return `
+                    if (roundNumber === 2)
+                        return `
                 <span style="color:#F1C40F">★★</span><span style="color:grey">☆☆☆</span>`
-                if (roundNumber === 3)
-                return `
+                    if (roundNumber === 3)
+                        return `
                 <span style="color:#F1C40F">★★★</span><span style="color:grey">☆☆</span>`
-                if (roundNumber === 4)
-                return `
+                    if (roundNumber === 4)
+                        return `
                 <span style="color:#F1C40F">★★★★</span><span style="color:grey">☆</span>`
-                if (roundNumber === 5)
-                return `
-                <span style="color:#F1C40F">★★★★★</span><span style="color:grey"></span>`       
-            }
+                    if (roundNumber === 5)
+                        return `
+                <span style="color:#F1C40F">★★★★★</span><span style="color:grey"></span>`
+                }
 
-            document.getElementById("productComment").innerHTML += `
+                document.getElementById("productComment").innerHTML += `
             <div class="list-group-item list-group-item-action">
                     <div class="row">
                         <div class="col">
@@ -196,15 +192,15 @@ return response.json()
                 </div>
         
                 `;
-        }
+            }
 
-    });
+        });
 
-    let prodRelacionadoAMostrar = "";
+        let prodRelacionadoAMostrar = "";
 
-    for (let prodRel of data.relatedProducts) {
+        for (let prodRel of data.relatedProducts) {
 
-        prodRelacionadoAMostrar += `
+            prodRelacionadoAMostrar += `
         <div class="col-md-4">
             <div onclick="setProdID(${prodRel.id})" class="card mb-4 shadow-sm custom-card cursor-active">
             <img class="bd-placeholder-img card-img-top" src="${prodRel.image}"
@@ -215,11 +211,11 @@ return response.json()
             </div>
         </div>
         `
-    }
+        }
 
-    document.getElementById("productosRelacionados").innerHTML += prodRelacionadoAMostrar;
+        document.getElementById("productosRelacionados").innerHTML += prodRelacionadoAMostrar;
 
-});
+    });
 
 function setProdID(id) {
     localStorage.setItem("peliID", id);

@@ -1,4 +1,4 @@
-document.getElementById("login-form").addEventListener('submit', function(evento) {
+document.getElementById("login-form").addEventListener('submit', function (evento) {
 
     var campos = document.getElementsByClassName('form-control');
     var valid = true
@@ -8,7 +8,7 @@ document.getElementById("login-form").addEventListener('submit', function(evento
             valid = false;
         }
     }
-    
+
     if (valid) {
         evento.preventDefault();
         window.location.href = 'home.html';
@@ -23,7 +23,7 @@ const inputEmail = document.getElementById("email")
 const buttonText = document.getElementById("submit")
 
 buttonText.addEventListener("click", (e) => {
-    if (inputEmail.value) { 
+    if (inputEmail.value) {
         localStorage.setItem("text", inputEmail.value);
     } else {
         alert("Por favor, ingrese un Nombre de Usuario");

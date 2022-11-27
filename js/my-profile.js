@@ -1,4 +1,3 @@
-// redirigir página a index si no está logueado
 if (!(username)) {
     window.location.href = 'index.html';
 }
@@ -19,7 +18,6 @@ email.innerHTML = `
     <input type="email" class="form-control" id="emailPerfil" value="${localStorage.getItem("text")}" required>
     `
     
-// Si los campos están guardados en el LocalStorage que los muestre
 if (localStorage.getItem("PrimNom")) {
     primNombre.value = localStorage.getItem("PrimNom");
 }
@@ -50,7 +48,6 @@ if (imageURL) {
     tumbnailPhoto.setAttribute("src", "img/img_perfil.png")
 }
 
-// Validación con Boostrap
 formPerfil.addEventListener('submit', function (event) {
     if (!formPerfil.checkValidity()) {
     event.preventDefault();
@@ -89,15 +86,14 @@ formPerfil.addEventListener('submit', function (event) {
         localStorage.removeItem("Tel");
     }
 
-    // NO FUNCIONA
-    // fotoPerfil.addEventListener("change", function (e) {
-    //     const reader = new FileReader(); 
+    fotoPerfil.addEventListener("change", function (e) {
+        const reader = new FileReader(); 
 
-    //     reader.addEventListener("load", () => {
-    //         localStorage.setItem("ProfIMG", reader.result);
-    //     })
+        reader.addEventListener("load", () => {
+            localStorage.setItem("ProfIMG", reader.result);
+        })
 
-    //     reader.readAsDataURL(this.files[0]);
-    //     console.log(reader.files[0]);
-    // })
+        reader.readAsDataURL(this.files[0]);
+        console.log(reader.files[0]);
+    })
 })
